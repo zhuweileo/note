@@ -1,0 +1,26 @@
+1. 什么是布局
+2. div是无语义的标签，负责区块的划分
+3. 常见布局（pc）
+- 固定宽度
+- 弹性布局
+- 响应式布局
+
+- 一栏布局
+	1. 宽度和最大宽度的区别
+	2. 把把标签变成 class来省标签
+	3. 通栏
+	4. 通栏优化？？？？
+- 内部元素的水平居中
+	.parent{text-align:center}
+	.child{diplay:inline-block}
+- 双列布局
+	一列固定宽度，另一列自适应
+	是否可以两列都自适应？？？？  用百分比
+- 三栏布局
+
+4. 浮动VS负margin
+负margin
+圣杯布局
+双飞翼布局
+
+http://www.awwwards.com/websites/clean/

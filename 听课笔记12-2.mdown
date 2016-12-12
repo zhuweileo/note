@@ -1,0 +1,41 @@
+1. line-height=2em;
+表示行高是当前字体的二倍 
+2. 父元素如下设置
+父元素 {
+	font-size:20px;
+	line-height:2em;
+}
+则子元素中继承的line-height值是在父容器中计算后的值，也就是20px*2=40px。而不是直接继承line-height=2em这个相对值。
+
+3. background的一些属性
+background-image:url();
+backgound-repeat:no-repeat;
+background-position:x,y;center;
+background-attachment:fix;背景图片不移动
+background-size:px;contain(刚好放进去，不变形);cover(完全填满，不留空白)   设置尺寸
+
+雪碧图
+
+变化的用`<img>`标签，不变的用css设置background-img
+
+ 首屏展示
+	1. body,html标签高度100%
+body,html{
+	height:100%;	
+}
+	2. 要展示的内容高度设为100%
+div{
+	height:100%
+}
+
+4. 外边距合并
+margin值设置为负数；
+边距和边距重合时，会取大值；
+3个例子
+兄弟元素边距合并
+自己边距合并
+父子元素边距合并
+
+5. 字体图标
+www.iconfont.cn
+fontawesome	

@@ -1,0 +1,23 @@
+1. 外边距只加top就好
+2. 背景图片是位于背景色上面的
+3. background-size的值
+- px
+- contain
+- 100%
+4. 雪碧图可以减少网络请求，提升加载速度
+5. inline-block
+- 特点
+- 缝隙问题
+解决：设置一个外包裹标签，字体大小设为0，
+- 高度不同的inline-block元素顶部不对齐
+解决：vertical-align:top/bottom
+
+6. 背景图片和img的区别
+
+7. 对于line-height %,em  都是计算后继承
+
+8. 盒模型 
+
+IE盒模型  width,height=conten+pading+border
+border-sizing:content-box;w3c标准盒模型
+border-sizing:border-box;IE盒模型
