@@ -1,8 +1,61 @@
 1. CSS是什么？
 CSS=cascading style sheet 层叠样式表 
 2. 引用CSS方法
-	- 内联样式
-	- 内部样式
-	- 外部样式
+- 内联样式
+`<h1 style="color: red; font-size: 20px;"></h1>`
+- 内部样式
+```
+<style type="text/css">
+  h1 {
+    color: red;
+    font-size: 20px;
+  }
+</style>
+<h1>饥人谷</h1>
+```
+- 外部样式
+```
+<head>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+```
+```
+<head>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+```
 3. 开发者工具
 4. 文件路径
+- 相对路径
+```
+css/a.css   当前目录中的css文件夹内的a.css文件
+./css/a.css 当前目录中的css文件夹内的a.css文件
+b.css       当前目录中的b.css文件
+../imgs/a.png 当前目录的上一层目录上的imgs的文件夹内的a.png文件
+```
+- 绝对路径
+`/Users/hunger/project/css/a.css`
+- 另外
+`./`代表当前路径
+`../`代表当前路径的上一层目录
+`/`代表根目录
+在windows中，命令行中的目录常用`\`
+
+5. css选择器
+基本常用选择器不做介绍，用法在[w3school](http://www.w3school.com.cn/css/css_selector_type.asp)都可以查到。
+1. id选择器  `#`
+2. class选择器 `.`
+3. 子元素选择器 `空格`
+4. 直接后代选择器  `>`
+5. 分组选择器 `,`
+6. 属性选择器 `[属性值]`
+7. 相邻元素选择器`+直接相邻元素选择器`,`~非直接相邻元素选择器`
+8. 伪类选择器
+| 常用的 | 作用 |
+|:------:|:----:|
+| :active | 向被激活的元素添加样式。|
+| :focuse | 向拥有键盘输入焦点的元素添加样式。|
+| :hover  | 当鼠标悬浮在元素上方时，向元素添加样式。|
+| :link	  | 向未被访问的链接添加样式。|
+| :visited| 向已被访问的链接添加样式。|
+| :first-child|向元素的第一个子元素添加样式。|
