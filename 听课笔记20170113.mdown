@@ -1,0 +1,19 @@
+## Math对象
+round 方法四舍五入
+abs绝对值
+floor 向下取整
+ceil向上取整
+pow 次方
+random随机数
+
+涉及到计算的不要用小数，尽量用整数
+
+## Date对象
+
++new Date()
+直接得到毫秒数
+
+## 数组
+sort(function(){
+	
+})
