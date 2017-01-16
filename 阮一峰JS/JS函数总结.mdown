@@ -1,0 +1,371 @@
+##　JS函数总结
+
+>声明：本文参考了[阮一峰的JS标准参考教程](http://javascript.ruanyifeng.com/grammar/function.html)，版权是人家的，我只是把里面的重点再提炼一下。
+
+## 1. 函数声明(Function Declaration)
+### 函数声明有3种方法
+>1. function命令
+2. 函数表达式
+3. Function构造函数
+
+举例：
+1. function命令
+```
+function print(s){
+	console.log(s);
+}
+function:命令名
+print:函数名，用户自定义
+s:参数名，用户自定义
+{
+	函数体;用户自定义
+}
+```
+2. 函数**表达式**
+```
+var print = function(s) {
+  console.log(s);
+};
+//将一个**没有函数名**的函数赋值给了一个变量；
+//注意末尾`}`后是有`;`的
+```
+3. Function构造函数
+```
+var add = new Function(
+  'x',
+  'y',
+  'return x + y'
+);
+//最后一个参数是函数体，如果只有一个参数，那么唯一的参数就是函数体。
+//这种方法不直观，所以很少用。
+// 等同于
+function add(x, y) {
+  return x + y;
+}
+```
+### 函数重复声明
+>同一个含数被声明了多次，那么后面的函数会覆盖掉前面的函数
+
+### 函数声明的提升
+函数和变量一样，都存在声明的提升。
+但是有几个需要注意的地方
+```
+f();
+var f = function (){};
+// TypeError: undefined is not a function
+```
+这种是采用函数表达式的方式声明函数，并不会得到提升，而会报错，上面代码等同于下面。
+```
+var f;
+f();
+f = function () {};
+```
+
+因此，如果同时采用function命令和赋值语句声明同一个函数，最后总是采用赋值语句的定义。
+```
+var f = function() {
+  console.log('1');
+}
+
+function f() {
+  console.log('2');
+}
+
+f() // 1
+```
+
+## 2. 函数的调用
+函数的调用方法：
+函数名(参数1,参数2,参数3……);
+```
+function add(x,y){
+	return x + y;
+}
+add(1,2);//3
+```
+函数调用后，会返回return 后面的表达式的值，如果函数没有return，默认返回undefined
+
+## 3. 函数的递归(recursion)
+函数调用自己，简称函数递归。
+举个栗子：
+```
+//函数可以用来计算n的阶乘
+function factorial(n){
+	if(n===1){		//结束条件
+		return 1;
+	}else{
+		return n*factorial(n-1);
+	}
+}
+
+factorial(5);//5*4*3*2*1=120
+```
+递归需要有自己的结束条件，否则会一直调用下去，无法停止。
+
+
+## 4. 函数的属性
+函数有2个重要属性
+>1. name属性
+2. length属性
+
+### name属性
+name属性返回 function命令后的函数名
+```
+function f1() {}
+f1.name // 'f1'
+
+var f2 = function () {};
+f2.name // ''
+
+var f3 = function myName() {};
+f3.name // 'myName'（真正的函数名还是f3，myName这个名字只在函数体内部可用）
+```
+
+### length属性
+length属性返回函数预期传入的参数个数，即函数定义之中的参数个数，和调用函数时具体传了几个参数无关。
+```
+function f(a, b) {}
+f(1,2,3);//和调用时具体穿了几个参数没有关系
+f.length // 2
+```
+
+## 5. 函数的方法
+### toString方法
+返回函数的源码
+```
+function f() {
+  a();
+  b();
+  c();
+}
+
+f.toString()
+
+"function f() {
+  a();
+  b();
+  c();
+ }"
+```
+返回的内容是字符串。
+这个方法的一个典型应用是：实现多行字符串的输出
+```
+var multiline = function (fn) {
+  var arr = fn.toString().split('\n');
+  return arr.slice(1, arr.length - 1).join('\n');
+};
+
+function f() {/*
+  这是一个
+  多行注释
+*/}
+
+multiline(f);
+// " 这是一个
+//   多行注释"
+```
+## 6. 函数作用域
+JS中有两种作用域
+>1. 全局作用域
+2. 函数作用域
+注：JS中没有区块作用域
+
+### 全局变量
+在函数外声明的变量属于全局作用域，任何函数内部都可以使用。
+注意：在函数中声明变量时如果不加var ，那么声明的依然是一个全局变量。
+使用var 声明变量时，只要不是出现在函数体内部，一律是全局变量
+### 局部变量
+在函数内部声明的变量只在声明它的函数内部有效，属于局部变量。
+
+### 变量覆盖
+当出现全局变量和局部变量重名的情况时，局部变量会覆盖掉全局变量。
+
+### 函数的作用域
+函数本身也是一个值，也有自己的作用域。它的作用域与变量一样，就是其声明时所在的作用域，与其运行时所在的作用域无关。
+```
+function foo() {
+  var x = 1;
+  function bar() {
+    console.log(x);
+  }
+  return bar;
+}
+bar();
+//VM630:1 Uncaught ReferenceError: bar is not defined(…)
+```
+bar定义在foo内部，在外面使用bar就会报错
+
+## 7. 参数
+### 参数的省略
+函数的参数不是必须的
+
+```
+function f(a,b){
+	console.log(a);
+	console.log(b);
+}
+f(1);
+//1
+//undefined
+```
+不管提供几个参数，js都不会报错，被省略的参数会默认使用undefined代替。上面参数省略，相当于下面。
+```
+f(1,undefined);
+```
+### 为参数设置默认值
+```
+function f(a) {
+  (a !== undefined && a !== null) ? a = a : a = 1;
+  return a;
+}
+
+f() // 1
+f('') // ""
+f(0) // 0
+```
+上例中为函数f的a参数设置默认值为1。
+
+### 参数的传递方式
+参数的传递方式分两种：
+>1. 传值传递
+2. 传址传递
+
+函数参数如果是原始类型的值（数值、字符串、布尔值），传递方式是传值传递（passes by value）
+如果函数参数是复合类型的值（数组、对象、其他函数），传递方式是传址传递（pass by reference）
+
+### 原始类型变量变为传址传递
+某些情况下，如果需要对某个原始类型的变量，获取传址传递的效果，可以将它写成全局对象的属性。
+```
+var a = 1;
+
+function f(p) {
+  window[p] = 2;
+}
+f('a');
+
+a // 2
+```
+
+## 8. arguments对象
+arguments是对象；
+包含函数运行时的所有参数；
+该对象只能在函数体内部使用。
+```
+var f = function(one) {
+  console.log(arguments[0]);
+  console.log(arguments[1]);
+  console.log(arguments[2]);
+}
+f(1, 2, 3)
+// 1
+// 2
+// 3
+```
+上面的例子说明，arguments里面的是函数调用时实际的参数，而不是函数定义时的形参。
+
+可以为参数赋值（严格模式下禁用）
+```
+var f = function(a, b) {
+  arguments[0] = 3;
+  arguments[1] = 2;
+  return a + b;
+}
+
+f(1, 1)
+// 5
+```
+
+### arguments 的length属性
+```
+function f() {
+  return arguments.length;
+}
+
+f(1, 2, 3) // 3
+f(1) // 1
+f() // 0
+```
+注意和函数的length属性区别。
+### callee属性
+该属性可返回对应函数，严格模式禁用，所以不建议使用。可以通过该属性达到调用自身的效果。
+```
+var f = function(one) {
+  console.log(arguments.callee === f);
+}
+
+f() // true
+```
+### arguments不是数组
+因为不是数组，所以不能使用数组的方法，如果要使用，需提前转为数组。具体转换方式如下：
+```
+var args = Array.prototype.slice.call(arguments);
+
+// or
+
+var args = [];
+for (var i = 0; i < arguments.length; i++) {
+  args.push(arguments[i]);
+}
+```
+
+## 9. 函数闭包
+### 背景
+>前面讲过函数内部的变量不可以被外面访问，当有些情况下我们必须要访问函数内部变量时，就可以用闭包来解决
+
+具体方法：在函数内部再创建一个函数，并将该函数作为返回值
+```
+function f1() {
+  var n = 999;
+  function f2() {
+    console.log(n);
+  }
+  return f2;
+}
+
+var result = f1();
+result(); // 999
+```
+**闭包**就是函数f2，即能够读取其他函数内部变量的函数。
+
+### 闭包的特点
+
+闭包最大的特点，就是它可以“记住”诞生的环境，比如f2记住了它诞生的环境f1，所以从f2可以得到f1的内部变量。在本质上，闭包就是将函数内部和函数外部连接起来的一座桥梁。
+
+闭包的最大用处有两个，一个是可以读取函数内部的变量，另一个就是让这些变量始终保持在内存中，即闭包可以使得它诞生环境一直存在。请看下面的例子，闭包使得内部变量记住上一次调用时的运算结果。
+
+闭包使诞生的环境一直存在
+```
+function createIncrementor(start) {
+  return function () {
+    return start++;
+  };
+}
+
+var inc = createIncrementor(5);
+
+inc() // 5
+inc() // 6
+inc() // 7
+```
+### 闭包的弊端
+注意，外层函数每次运行，都会生成一个新的闭包，而这个闭包又会保留外层函数的内部变量，所以内存消耗很大。因此不能滥用闭包，否则会造成网页的性能问题。
+
+## 10. 立即执行函数表达式（Immediately Invoked Function Expression）
+有时候我们需要在定义函数之后，立即调用函数，一下两种写法可以满足需求：
+```
+(function(){ /* code */ }());
+// 或者
+(function(){ /* code */ })();
+```
+但是下面的写法是错误的
+```
+function(){ /* code */ }();
+// SyntaxError: Unexpected token (
+```
+原因是：function关键字既可以当语句，也可以当表达式。
+JS引擎规定，如果function关键字出现在行首，一律解释为语句。JS引擎看到行首是function关键字之后，认为这一段都是函数的定义，不应该是圆括号结尾，所以就报错了。
+
+通常情况下，只对匿名函数使用这种“立即执行的函数表达式”。它的目的有两个：一是不必为函数命名，避免了污染全局变量；二是IIFE内部形成了一个单独的作用域，可以封装一些外部无法读取的私有变量。
+
+
+
